@@ -1,24 +1,20 @@
 package edu.eci.usermicro.dto;
 
-public class LoginDto
-{
-    String email;
+public class LoginDto {
+    public String email;
 
-    String password;
+    public String password;
 
-    public LoginDto( String email, String password )
-    {
+    public LoginDto(String email, String password) {
         this.email = email;
         this.password = password;
     }
 
-    public String getEmail()
-    {
+    public String getEmail() {
         return email;
     }
 
-    public String getPassword()
-    {
+    public String getPassword() {
         return password;
     }
 }

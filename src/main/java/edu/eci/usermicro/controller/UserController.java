@@ -6,13 +6,13 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import edu.eci.usermicro.dto.UserDto;
 import edu.eci.usermicro.entities.*;
 import edu.eci.usermicro.service.UserService;
-import edu.eci.usermicro.service.impl.UserServiceImpl;
+
+import javax.annotation.security.RolesAllowed;
 
 @RestController
 @RequestMapping("/v1/user")
@@ -38,10 +38,11 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto ) {
+    public ResponseEntity<UserDto> create(@RequestBody UserDto userDto){
         User user = userService.fromDtoToEntity(userDto);
-        user = userService.create(user);
+        userService.create(user);
         UserDto userDto1= userService.fromEntityToDto(user);
+        System.out.println("User dto 1: " + userDto1.getPassword());
         return new ResponseEntity<UserDto>(userDto1,HttpStatus.ACCEPTED);
     }
 
@@ -52,6 +53,7 @@ public class UserController {
         return new ResponseEntity<UserDto>(userService.fromEntityToDto(userService.update(userC, id)),HttpStatus.ACCEPTED) ;
     }
 
+    @RolesAllowed("ADMIN")
     @DeleteMapping( "/{id}" )
     public boolean delete( @PathVariable String id ) {
         return userService.deleteById(id);

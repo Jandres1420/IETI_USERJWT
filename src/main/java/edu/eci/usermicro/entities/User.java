@@ -1,5 +1,6 @@
 package edu.eci.usermicro.entities;
 
+import edu.eci.usermicro.dto.LoginDto;
 import edu.eci.usermicro.dto.UserDto;
 import edu.eci.usermicro.entities.enumerating.RoleEnum;
 import org.springframework.data.annotation.Id;
@@ -20,6 +21,7 @@ User {
     private String passwordHash;
     private List<RoleEnum> roles;
 
+
     public User(String id, String name, String email, String lastName, String createdAt) {
         this.id = id;
         this.name = name;
@@ -27,15 +29,16 @@ User {
         this.lastName = lastName;
         this.createdAt = createdAt;
     }
-    public User(String id, String name, String email, String lastName, String createdAt, UserDto userDto) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.lastName = lastName;
-        this.createdAt = createdAt;
-        this.passwordHash = BCrypt.hashpw(userDto.getPassword(),BCrypt.gensalt())
+    public User(UserDto userDTO) {
+        this.name = userDTO.getName();
+        this.email = userDTO.getEmail();
+        this.lastName = userDTO.getLastName();
+        this.createdAt = userDTO.getCreatedAt();
+        System.out.println("Estamos en costructor de User ");
+        System.out.println("Contraseña " + userDTO.getPassword());
+        passwordHash = BCrypt.hashpw(userDTO.getPassword(), BCrypt.gensalt());
     }
-
+    public User(){}
 
     public String getId() {
         return this.id;
@@ -92,4 +95,6 @@ User {
     public void setRoles(List<RoleEnum> roles) {
         this.roles = roles;
     }
+
+
 }

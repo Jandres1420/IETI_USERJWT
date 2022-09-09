@@ -2,6 +2,7 @@ package edu.eci.usermicro.service;
 
 import java.util.List;
 
+import edu.eci.usermicro.dto.LoginDto;
 import edu.eci.usermicro.dto.UserDto;
 import edu.eci.usermicro.entities.User;
 
@@ -20,7 +21,8 @@ public interface UserService {
 
     List<UserDto> fromEntityToDtos(List<User> user);
 
-    User fromDtoToEntity(UserDto userDto); 
-    
-    
+    User fromDtoToEntity(UserDto userDto);
+
+    User findByEmail(String email);
+
 }

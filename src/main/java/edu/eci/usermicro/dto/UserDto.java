@@ -1,11 +1,15 @@
 package edu.eci.usermicro.dto;
 
+import edu.eci.usermicro.entities.User;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+
 import java.io.Serializable;
 
 public class UserDto implements Serializable{
     String id,name,email,lastName,createdAt,password;
 
     private static final long serialVersionUID = 1L;
+    public  UserDto(){}
     public UserDto(String id, String name, String email, String lastName, String createdAt){
         this.id =id;
         this.name = name;
@@ -13,6 +17,16 @@ public class UserDto implements Serializable{
         this.lastName = lastName;
         this.createdAt = createdAt;
     }
+    public UserDto(String id, String name, String email, String lastName, String createdAt,String password){
+        this.id =id;
+        this.name = name;
+        this.email = email;
+        this.lastName = lastName;
+        this.createdAt = createdAt;
+        this.password = password;
+    }
+
+
     public String getId() {
         return this.id;
     }

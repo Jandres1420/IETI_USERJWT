@@ -1,5 +1,6 @@
 package edu.eci.usermicro.service.impl;
 
+import edu.eci.usermicro.dto.LoginDto;
 import edu.eci.usermicro.dto.UserDto;
 import edu.eci.usermicro.entities.User;
 import edu.eci.usermicro.repository.UserRepository;
@@ -22,13 +23,16 @@ public class UserServiceMongoDB implements UserService {
     }
     @Override
     public User create(User user){
+        System.out.println("Entre a create "  + user.getName());
+        /**
         if(user.getId().equals("")){
             int min_val = 10;
             int max_val = 1000;
             Random rand = new Random();
             int randomNum = min_val + rand.nextInt((max_val - min_val) + 1);
             user.setId(String.valueOf(randomNum));
-        }
+        }**/
+        System.out.println("Estoy en create ");
         return userRepository.insert(user);
     }
 
@@ -69,7 +73,9 @@ public class UserServiceMongoDB implements UserService {
 
     @Override
     public UserDto fromEntityToDto(User user) {
-        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLastName(), user.getCreatedAt());
+        System.out.println("Entitie email " + user.getEmail());
+        System.out.println("Entitie password " + user.getPasswordHash());
+        UserDto userDto = new UserDto(user.getId(), user.getName(), user.getEmail(), user.getLastName(), user.getCreatedAt(),user.getPasswordHash());
         return userDto;
     }
 
@@ -80,8 +86,28 @@ public class UserServiceMongoDB implements UserService {
 
     @Override
     public User fromDtoToEntity(UserDto userDto) {
-        User user = new User(userDto.getId(), userDto.getName(), userDto.getEmail(), userDto.getLastName(),
-                userDto.getCreatedAt());
+        if(userDto.getPassword()!=null) {
+            System.out.println("User DTO 1 email" + userDto.getEmail() );
+            System.out.println("User DTO 1 password" + userDto.getPassword() );
+            System.out.println("Password not null");
+            User user = new User(userDto);
+            System.out.println("se creo bien usuario en fromDtoToEntity "+user.getEmail());
+            return user;
+        }else{
+            System.out.println("Password null");
+            User user = new User(userDto.getId(), userDto.getName(), userDto.getEmail(), userDto.getLastName(),
+                    userDto.getCreatedAt());
+            return user;
+        }
+
+
+
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        System.out.println("Hash password "+ user.getPasswordHash());
         return user;
     }
 
